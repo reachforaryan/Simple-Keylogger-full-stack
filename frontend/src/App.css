@@ -1,0 +1,116 @@
+:root {
+  --background-color: #0d0d0f;
+  --primary-color: rgba(28, 28, 30, 0.85);
+  --secondary-color: rgba(58, 58, 60, 0.6);
+  --text-color: #f5f5f7;
+  --accent-color: #0a84ff;
+  --border-glow: rgba(10, 132, 255, 0.25);
+}
+
+body {
+  background: linear-gradient(135deg, #0d0d0f 0%, #1c1c1e 100%);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 4fr 1fr; /* 80/20 split */
+  gap: 20px;
+  padding: 20px;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.file-content-col,
+.dashboard-col {
+  background: var(--primary-color);
+  border-radius: 16px;
+  padding: 20px;
+  overflow-y: auto;
+  border: 1px solid var(--secondary-color);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4),
+              0 0 20px var(--border-glow);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.file-content-col:hover,
+.dashboard-col:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.6),
+              0 0 25px var(--border-glow);
+}
+
+/* Scrollbar styling */
+.file-content-col::-webkit-scrollbar,
+.dashboard-col::-webkit-scrollbar {
+  width: 8px;
+}
+.file-content-col::-webkit-scrollbar-thumb,
+.dashboard-col::-webkit-scrollbar-thumb {
+  background: var(--secondary-color);
+  border-radius: 8px;
+}
+.file-content-col::-webkit-scrollbar-thumb:hover,
+.dashboard-col::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-color);
+}
+
+/* Terminal styles */
+.terminal {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: "Menlo", "Monaco", "Consolas", "Courier New", monospace;
+  color: #dcdcdc;
+  line-height: 1.5;
+}
+
+.terminal-cursor {
+  display: inline-block;
+  background-color: var(--accent-color);
+  width: 8px;
+  height: 1.2em;
+  animation: blink 1s step-end infinite;
+  margin-left: 4px;
+  vertical-align: bottom;
+  border-radius: 2px;
+}
+
+@keyframes blink {
+  from, to {
+    background-color: transparent;
+  }
+  50% {
+    background-color: var(--accent-color);
+  }
+}
+
+/* Accent glowing buttons/links */
+button,
+a {
+  background: var(--accent-color);
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+button:hover,
+a:hover {
+  background: #0077e6;
+  box-shadow: 0 0 15px var(--accent-color);
+}
