@@ -32,15 +32,57 @@ const findRelatedWords = (text, targetWord) => {
     return sortedWords.slice(0, 10).map(([word]) => word);
 };
 
-
 const TfIdfDashboard = ({ fileContent }) => {
     const [inputWord, setInputWord] = useState('');
-    
+
     // useMemo will re-calculate related words only when fileContent or inputWord changes
     const relatedWords = useMemo(() => findRelatedWords(fileContent, inputWord), [fileContent, inputWord]);
 
+    // Calculate character count
+    const characterCount = useMemo(() => (fileContent ? fileContent.length : 0), [fileContent]);
+
+    // Calculate word count
+    const wordCount = useMemo(() => (fileContent ? fileContent.trim().split(/\s+/).filter(Boolean).length : 0), [fileContent]);
+
+    // Calculate top keywords
+    const topKeywords = useMemo(() => {
+        if (!fileContent) {
+            return [];
+        }
+
+        const stopWords = ['a', 'an', 'the', 'in', 'on', 'at', 'for', 'to', 'and', 'or', 'but', 'with', 'by', 'from', 'of', 'we', 'i', 'you', 'he', 'she', 'it', 'they', 'is', 'am', 'are', 'was', 'were', 'be', 'been', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'shall', 'may', 'can', 'could', 'would', 'should'];
+
+        const words = fileContent.trim().toLowerCase().split(/\s+/);
+        const wordFrequencies = {};
+        words.forEach(word => {
+            const cleanWord = word.replace(/[.,!?;:()]/g, '');
+            if (cleanWord && !stopWords.includes(cleanWord)) {
+                wordFrequencies[cleanWord] = (wordFrequencies[cleanWord] || 0) + 1;
+            }
+        });
+        const sortedKeywords = Object.entries(wordFrequencies)
+            .sort(([, a], [, b]) => b - a);
+        return sortedKeywords.slice(0, 10);
+    }, [fileContent]);
+
     return (
         <div>
+            <div>
+                <h3>Text Statistics</h3>
+                <p>Character Count: {characterCount}</p>
+                <p>Word Count: {wordCount}</p>
+                <h4>Top Keywords:</h4>
+                {topKeywords.length > 0 ? (
+                    <ul>
+                        {topKeywords.map(([word, frequency], index) => (
+                            <li key={index}>{word} ({frequency})</li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>No keywords found.</p>
+                )}
+            </div>
+            <hr />
             <h3>Find Related Words</h3>
             <p>Enter a word to find the top 10 most frequently co-occurring words in the text.</p>
             <input

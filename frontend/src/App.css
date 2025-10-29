@@ -49,7 +49,6 @@ body {
 
 .file-content-col:hover,
 .dashboard-col:hover {
-  transform: translateY(-4px);
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.6),
               0 0 25px var(--border-glow);
 }
