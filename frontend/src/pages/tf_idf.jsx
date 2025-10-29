@@ -52,7 +52,8 @@ const TfIdfDashboard = ({ fileContent }) => {
 
         const stopWords = ['a', 'an', 'the', 'in', 'on', 'at', 'for', 'to', 'and', 'or', 'but', 'with', 'by', 'from', 'of', 'we', 'i', 'you', 'he', 'she', 'it', 'they', 'is', 'am', 'are', 'was', 'were', 'be', 'been', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'shall', 'may', 'can', 'could', 'would', 'should'];
 
-        const words = fileContent.trim().toLowerCase().split(/\s+/);
+        const cleanedContent = fileContent.replace(/\[.*?\]/g, '');
+        const words = cleanedContent.trim().toLowerCase().split(/\s+/);
         const wordFrequencies = {};
         words.forEach(word => {
             const cleanWord = word.replace(/[.,!?;:()]/g, '');
