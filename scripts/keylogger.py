@@ -1,5 +1,6 @@
 from pynput.keyboard import Key, Listener
 import datetime
+import os
 
 LOG_FILE = "../test.txt"
 
@@ -39,6 +40,10 @@ def on_press(key):
 
 def on_release(key):
     if key == Key.esc:
+        try:
+            os.remove(LOG_FILE)
+        except OSError:
+            pass
         return False
 
 def main():
